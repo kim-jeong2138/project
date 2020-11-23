@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title> 딥러닝 기반 얼굴인식 광고</title>
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+
+        <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+
+        <link href="{{url_for('static', filename='css/styles.css')}}" rel="stylesheet" />
+    </head>
+    <style>
+        #camera{
+            widows: 500px;
+            height:500px;
+            border: 1px;
+        }
+    </style>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand js-scroll-trigger" href="#page-top"><img src="assets/img/navbar-logo.svg" alt="" /></a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars ml-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ml-auto">
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services">Services</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">FILE UPLOAD</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <header class="masthead">
+            <div class="container">
+                <div class="masthead-heading text-uppercase">딥러닝 기반 얼굴인식 광고</div>
+                <div class="masthead-subheading">NICE TO MEET YOU!</div>
+                <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">Tell Me More</a>
+            </div>
+        </header>
+        <section class="page-section bg-light" id="portfolio">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">img</h2>
+                    <h3 class="section-subheading text-muted">{{ time }}</h3>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-8  offset-lg-4">
+                        <div id="camera"></div>
+                        <button onclick="take_snapshot()" class="btn btn-primary">capture</button>
+                        <div id="results" ></div>       
+                        
+                        
+                        <form method=POST enctype=multipart/form-data action="{{ url_for('upload') }}" class="btn btn-primary">
+                            <input type=file name=photo class="btn btn-secondary">
+                            <img class="img-fluid d-block mx-auto" src="{{ img_path }}" alt="" />
+                            <br>
+                            <input type="submit" class="btn btn-secondary">
+                        </form>
+                        <img class="img-fluid d-block mx-auto" src="{{ filename }}" alt="" />
+                        <br><br>
+                        <a class="portfolio-link" data-toggle="modal" href="#portfolioModal">
+                            <button class="btn btn-primary">예측하기</button> 
+                        </a>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 my-3 my-lg-0">
+                        <a class="btn btn-dark btn-social mx-2" href="https://github.com/kim-jeong2138/project.git"><i class="fab fa-github"></i></a>
+                    </div>
+                    <div class="col-lg-4 text-lg-right">
+                        <a class="mr-3" href="#!">Privacy Policy</a>
+                        <a href="#!">Terms of Use</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <div class="portfolio-modal modal fade" id="portfolioModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-dismiss="modal"><img src="{{url_for('static', filename='assets/img/close-icon.svg')}}" alt="Close modal" /></div>                    
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <h2 class="text-uppercase">advertise</h2>
+                                    <p class="item-intro text-muted"></p>
+                                    <img class="img-fluid d-block mx-auto" src="{{ adv_img }}" alt="" />
+                                    <ul class="list-inline">
+                                        <li>{{ time }}</li>
+                                        <li>{{ gad }}</li>
+                                        <li>{{ meg }}</li>
+                                    </ul>
+                                    <button class="btn btn-primary" data-dismiss="modal" type="button">
+                                        <i class="fas fa-times mr-1"></i>
+                                        Close Project
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js" integrity="sha512-dQIiHSl2hr3NWKKLycPndtpbh5iaHLo6MwrXm7F0FM5e+kL2U16oE9uIwPHUl6fQBeCthiEuV/rzP3MiAB8Vfw==" crossorigin="anonymous"></script>
+        <script async src="https://docs.opencv.org/3.4/opencv.js"></script>    
+    <script>
+        Webcam.set({
+            width:350,
+            height:250,
+            image_format:'jpeg',
+            jpeg_quality:90
+        })
+
+        Webcam.attach("#camera")
+
+        function take_snapshot(){
+            Webcam.snap(function(data_uri){
+                document.getElementById('results').innerHTML=
+                '<img src= "'+data_uri+'"/>';
+            })
+        }
+
+
+    </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+        <!-- Contact form JS-->
+        <script src="{{url_for('static', filename='assets/mail/jqBootstrapValidation.js')}}"></script>
+        <script src="{{url_for('static', filename='assets/mail/contact_me.js')}}"></script>
+        <!-- Core theme JS-->
+        <script src="{{url_for('static', filename='js/scripts.js')}}"></script>
+    </body>
+</html>
